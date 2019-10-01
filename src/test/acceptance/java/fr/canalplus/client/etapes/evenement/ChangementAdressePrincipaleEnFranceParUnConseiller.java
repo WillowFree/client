@@ -1,5 +1,6 @@
 package fr.canalplus.client.etapes.evenement;
 
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -32,8 +33,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles({"acceptance-tests"})
 public class ChangementAdressePrincipaleEnFranceParUnConseiller {
 
-    private static final String PRENOM_DU_CLIENT = "mon prenom";
-    private static final String NOM_DU_CLIENT = "mon nom";
+    private static final String PRENOM_DU_CLIENT = "prenom du client";
+    private static final String NOM_DU_CLIENT = "nom du client";
     private static final String DATE_DE_NAISSANCE_STR = "1980-01-01T00:00:00.000Z";
     private static final OffsetDateTime DATE_DE_NAISSANCE_DU_CLIENT = OffsetDateTime.parse(DATE_DE_NAISSANCE_STR);
 
@@ -47,6 +48,12 @@ public class ChangementAdressePrincipaleEnFranceParUnConseiller {
     private ContratRepository contratRepository;
 
     private ClientEntity client;
+
+    @Before
+    public void setUp() {
+        clientRepository.deleteAll();
+        contratRepository.deleteAll();
+    }
 
     @Given("un abonné avec une adresse principale active en France")
     public void creerUnAbonneAvecUneAdressePrincipaleEnFrance() {
@@ -67,10 +74,11 @@ public class ChangementAdressePrincipaleEnFranceParUnConseiller {
         client = clientRepository.save(client);
     }
 
-    @When("le conseiller connecté à <canal> modifie l'adresse de l'abonné sans date d'effet")
-    public void unConseillerModifieLAdresseSansDateDEffet() throws Exception {
+    @When("^le conseiller connecté à \"([^\"]*)\" modifie l'adresse de l'abonné sans date d'effet$")
+    public void unConseillerModifieLAdresseSansDateDEffet(String canal) throws Exception {
         //language=JSON
         String miseAJourAdresseAbonnePayLoad = "{\n" +
+                "  \"canal\": \"" + canal + "\",\n" +
                 "  \"id\": \"" + client.getId() + "\",\n" +
                 "  \"nom\": \"" + NOM_DU_CLIENT + "\",\n" +
                 "  \"prenom\": \"" + PRENOM_DU_CLIENT + "\",\n" +

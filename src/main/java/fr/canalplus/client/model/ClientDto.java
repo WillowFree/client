@@ -8,6 +8,8 @@ import java.time.OffsetDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ClientDto {
 
+    private String canal;
+
     private long id;
 
     @NotNull
@@ -31,6 +33,15 @@ public class ClientDto {
     private Pays paysAdresse;
 
     private TypeAdresse typeAdresse;
+
+    public String getCanal() {
+        return canal;
+    }
+
+    public ClientDto setCanal(String canal) {
+        this.canal = canal;
+        return this;
+    }
 
     public long getId() {
         return id;
