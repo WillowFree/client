@@ -94,7 +94,6 @@
         </profile>
     </profiles>
 
-
     <build>
         <testSourceDirectory>${project.dir.test.unit.java}</testSourceDirectory>
         <testResources>
@@ -114,7 +113,6 @@
                 <executions>
                     <execution>
                         <id>copy-resources</id>
-                        <!-- here the phase you need -->
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
